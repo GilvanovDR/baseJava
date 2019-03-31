@@ -2,16 +2,16 @@
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+     private Resume[] storage = new Resume[10000];
 
     void clear() {
-        for (int i=0; i<size();i++) storage[i] = null;
+        for (int i = 0; i < size(); i++) storage[i] = null;
     }
 
     void save(Resume r) {
-        try{
+        try {
             storage[size()] = r;
-        } catch (java.lang.ArrayIndexOutOfBoundsException e){
+        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
             System.out.println("Array is full, you need delete one or more Resume");
         }
 
@@ -20,8 +20,8 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         Resume resume = new Resume();
-        for (int i=0; i<size(); i++) {
-            if (storage[i].uuid == uuid){
+        for (int i = 0; i < size(); i++) {
+            if (storage[i].uuid.equals(uuid)) {
                 resume = storage[i];
                 break;
             }
@@ -30,10 +30,9 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (int i=0; i<size(); i++)
-            if (storage[i].uuid == uuid)
-            {
-                System.arraycopy(storage,i+1,storage,i,size());
+        for (int i = 0; i < size(); i++)
+            if (storage[i].uuid.equals(uuid)) {
+                System.arraycopy(storage, i + 1, storage, i, size());
                 break;
             }
     }
@@ -43,13 +42,13 @@ public class ArrayStorage {
      */
     Resume[] getAll() {
         Resume[] storageWoNull = new Resume[size()];
-        System.arraycopy(storage,0,storageWoNull,0,size()); //for (int i=0;i<size();i++) storage[i]=storageWoNull[i];
+        System.arraycopy(storage, 0, storageWoNull, 0, size()); //for (int i=0;i<size();i++) storage[i]=storageWoNull[i];
         return storageWoNull;
     }
 
     int size() {
-        int i =0;
-        for (;i<10000;i++ ) if (storage[i] == null) break;
+        int i = 0;
+        for (; i < 10000; i++) if (storage[i] == null) break;
         return i;
     }
 }
