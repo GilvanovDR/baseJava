@@ -6,6 +6,9 @@ public class ArrayStorage {
     private int size = 0;
 
     void clear() {
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
+        }
         size = 0;
     }
 
@@ -31,6 +34,7 @@ public class ArrayStorage {
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 System.arraycopy(storage, i + 1, storage, i, size - i - 1);
+                storage[size] = null;
                 size--;
                 break;
             }
