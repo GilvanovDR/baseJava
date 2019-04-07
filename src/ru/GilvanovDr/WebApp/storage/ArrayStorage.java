@@ -1,5 +1,4 @@
 package ru.GilvanovDr.WebApp.storage;
-
 import ru.GilvanovDr.WebApp.model.Resume;
 
 /**
@@ -8,6 +7,13 @@ import ru.GilvanovDr.WebApp.model.Resume;
 public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size = 0;
+    private int resumeContaint(Resume resume){
+    return -1;
+    }
+
+    public void update(Resume resume) {
+        //TODO естть ли resume в ArrayStorage
+    }
 
     public void clear() {
         for (int i = 0; i < size; i++) {
@@ -17,6 +23,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
+        //TODO естть ли resume в ArrayStorage
         if (size == storage.length) {
             System.out.println("Array is full, you need delete one or more ru.GilvanovDr.WebApp.model.Resume");
         } else {
@@ -26,6 +33,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
+        //TODO естть ли resume в ArrayStorage
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return storage[i];
@@ -35,6 +43,7 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
+        //TODO естть ли resume в ArrayStorage
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 System.arraycopy(storage, i + 1, storage, i, size - i - 1);
