@@ -1,5 +1,8 @@
 package ru.GilvanovDr.WebApp.storage;
+
 import ru.GilvanovDr.WebApp.model.Resume;
+
+import java.util.Arrays;
 
 /**
  * Array based storage for Resumes
@@ -7,25 +10,44 @@ import ru.GilvanovDr.WebApp.model.Resume;
 public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size = 0;
-    private int resumeContaint(Resume resume){
-    return -1;
+
+    private int storageContain(Resume resume) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].equals(resume)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int storageContain(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void update(Resume resume) {
-        //TODO естть ли resume в ArrayStorage
+        int item = storageContain(resume);
+        if (item >= 0) {
+            storage[item] = new Resume(resume.getUuid());
+        } else {
+            System.out.println("Resume " + resume.getUuid() + " is not found in storage");
+        }
     }
 
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage,0,size,null);
         size = 0;
     }
 
     public void save(Resume r) {
-        //TODO естть ли resume в ArrayStorage
-        if (size == storage.length) {
-            System.out.println("Array is full, you need delete one or more ru.GilvanovDr.WebApp.model.Resume");
+        if (storageContain(r) >= 0) {
+            System.out.println("Resume " + r.getUuid() + " contained in storage");
+        } else if (size == storage.length) {
+            System.out.println("Array is full, you need delete one or more Resume");
         } else {
             storage[size] = r;
             size++;
@@ -33,24 +55,23 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        //TODO естть ли resume в ArrayStorage
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
+        int item = storageContain(uuid);
+        if (item >= 0) {
+            return storage[item];
+        } else {
+            System.out.println("Resume " + uuid + " is not found in storage");
+            return null;
         }
-        return null;
     }
 
     public void delete(String uuid) {
-        //TODO естть ли resume в ArrayStorage
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                System.arraycopy(storage, i + 1, storage, i, size - i - 1);
-                size--;
-                storage[size] = null;
-                break;
-            }
+        int item = storageContain(uuid);
+        if (item >= 0) {
+            System.arraycopy(storage, item + 1, storage, item, size - item - 1);
+            size--;
+            storage[size] = null;
+        } else {
+            System.out.println("Resume " + uuid + " is not found in storage");
         }
     }
 
@@ -58,9 +79,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] storageWoNull = new Resume[size];
-        System.arraycopy(storage, 0, storageWoNull, 0, size);
-        return storageWoNull;
+        return Arrays.copyOf(storage,size);
     }
 
     public int size() {

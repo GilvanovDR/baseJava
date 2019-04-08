@@ -23,11 +23,6 @@ public class Resume {
 
     @Override
     public boolean equals(Object obj) {
-        Resume resume = (Resume) obj;
-        if (this.uuid == resume.uuid) {
-            return true;
-        } else {
-            return false;
-        }
+         return this.uuid == ((Resume) obj).uuid;
     }
 }
