@@ -11,16 +11,7 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size = 0;
 
-    private int storageContain(Resume resume) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].equals(resume)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private int storageContain(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
@@ -30,7 +21,7 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int item = storageContain(resume);
+        int item = getIndex(resume.getUuid());
         if (item >= 0) {
             storage[item] = new Resume(resume.getUuid());
         } else {
@@ -44,7 +35,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (storageContain(r) >= 0) {
+        if (getIndex(r.getUuid()) >= 0) {
             System.out.println("Resume " + r.getUuid() + " contained in storage");
         } else if (size == storage.length) {
             System.out.println("Array is full, you need delete one or more Resume");
@@ -55,7 +46,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int item = storageContain(uuid);
+        int item = getIndex(uuid);
         if (item >= 0) {
             return storage[item];
         } else {
@@ -65,7 +56,7 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        int item = storageContain(uuid);
+        int item = getIndex(uuid);
         if (item >= 0) {
             System.arraycopy(storage, item + 1, storage, item, size - item - 1);
             size--;
