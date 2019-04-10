@@ -30,7 +30,7 @@ public class ArrayStorage {
     }
 
     public void clear() {
-        Arrays.fill(storage,0,size,null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -57,9 +57,10 @@ public class ArrayStorage {
 
     public void delete(String uuid) {
         int item = getIndex(uuid);
+
         if (item >= 0) {
-            System.arraycopy(storage, item + 1, storage, item, size - item - 1);
             size--;
+            storage[item] = storage[size];
             storage[size] = null;
         } else {
             System.out.println("Resume " + uuid + " is not found in storage");
@@ -70,7 +71,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return Arrays.copyOf(storage,size);
+        return Arrays.copyOf(storage, size);
     }
 
     public int size() {

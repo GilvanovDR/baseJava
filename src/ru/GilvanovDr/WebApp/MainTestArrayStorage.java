@@ -32,7 +32,7 @@ public class MainTestArrayStorage {
 
         System.out.println("\nUpdate r1 r4(=r3) r5");
         System.out.println("uuid1 hashcode =" + ARRAY_STORAGE.get("uuid1").hashCode());
-        ARRAY_STORAGE.update(r1);
+        ARRAY_STORAGE.update(new Resume("uuid1"));
         System.out.println("uuid1 hashcode(upd) =" + ARRAY_STORAGE.get("uuid1").hashCode());
         System.out.println("uuid3 hashcode =" + ARRAY_STORAGE.get("uuid3").hashCode());
         ARRAY_STORAGE.update(r4);
