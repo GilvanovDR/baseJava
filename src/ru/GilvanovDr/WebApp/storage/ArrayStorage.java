@@ -7,10 +7,10 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage extends AbstarctArrayStorage {
+public class ArrayStorage extends AbstractArrayStorage {
 
 
-    private int getIndex(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
@@ -44,15 +44,7 @@ public class ArrayStorage extends AbstarctArrayStorage {
         }
     }
 
-    public Resume get(String uuid) {
-        int item = getIndex(uuid);
-        if (item >= 0) {
-            return storage[item];
-        } else {
-            System.out.println("Resume " + uuid + " is not found in storage");
-            return null;
-        }
-    }
+
 
     public void delete(String uuid) {
         int item = getIndex(uuid);
