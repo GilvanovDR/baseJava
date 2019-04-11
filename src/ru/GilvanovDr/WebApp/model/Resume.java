@@ -3,7 +3,11 @@ package ru.GilvanovDr.WebApp.model;
 /**
  * Initial resume class
  */
-public class Resume {
+public class Resume implements Comparable<Resume>{
+    @Override
+    public int compareTo(Resume o) {
+        return uuid.compareTo(o.getUuid());
+    }
 
     // Unique identifier
     private String uuid;

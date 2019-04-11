@@ -2,7 +2,7 @@ package ru.GilvanovDr.WebApp.storage;
 
 import ru.GilvanovDr.WebApp.model.Resume;
 
-public class SortedArrayStorage extends AbstractArrayStorage {
+public class SortedArrayStorage extends AbstractArrayStorage{
     @Override
     protected int getIndex(String uuid) {
         return 0;
@@ -22,4 +22,5 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     public void save(Resume r) {
 
     }
+
 }
