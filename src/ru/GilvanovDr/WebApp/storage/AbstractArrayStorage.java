@@ -9,11 +9,37 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size = 0;
 
-    abstract protected int getIndex(String uuid);
+    protected abstract int getIndex(String uuid);
 
-    public abstract void save(Resume r);
+    protected abstract void fillEmptyItem(int index);
 
-    abstract public void delete(String uuid);
+    protected abstract void addNewResume(Resume r, int index);
+
+    public void save(Resume r) {
+        if (size == storage.length) {
+            System.out.println("Array is full, you need delete one or more Resume");
+        } else {
+            int index = getIndex(r.getUuid());
+            if (index >= 0) {
+                System.out.println("Resume " + r.getUuid() + " contained in storage");
+            } else {
+                addNewResume(r, index);
+
+                size++;
+            }
+        }
+    }
+
+    public void delete(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Resume " + uuid + " is not found in storage");
+        } else {
+            fillEmptyItem(index);
+            storage[size - 1] = null;
+            size--;
+        }
+    }
 
     public void update(Resume resume) {
         int item = getIndex(resume.getUuid());
