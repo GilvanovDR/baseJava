@@ -1,14 +1,14 @@
 package ru.GilvanovDr.WebApp;
 
 import ru.GilvanovDr.WebApp.model.Resume;
-import ru.GilvanovDr.WebApp.storage.ArrayStorage;
+import ru.GilvanovDr.WebApp.storage.SortedArrayStorage;
 import ru.GilvanovDr.WebApp.storage.Storage;
 
 /**
  * Test for your ru.GilvanovDr.WebApp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    private static final Storage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid1");

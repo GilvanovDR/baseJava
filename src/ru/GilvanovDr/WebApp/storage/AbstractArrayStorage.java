@@ -11,11 +11,18 @@ public abstract class AbstractArrayStorage implements Storage {
 
     abstract protected int getIndex(String uuid);
 
-    public abstract void update(Resume resume);
-
     public abstract void save(Resume r);
 
     abstract public void delete(String uuid);
+
+    public void update(Resume resume) {
+        int item = getIndex(resume.getUuid());
+        if (item >= 0) {
+            storage[item] = new Resume(resume.getUuid());
+        } else {
+            System.out.println("Resume " + resume.getUuid() + " is not found in storage");
+        }
+    }
 
     public int size() {
         return size;

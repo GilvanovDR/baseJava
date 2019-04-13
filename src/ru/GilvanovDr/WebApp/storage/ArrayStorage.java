@@ -17,16 +17,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void update(Resume resume) {
-        int item = getIndex(resume.getUuid());
-        if (item >= 0) {
-            storage[item] = new Resume(resume.getUuid());
-        } else {
-            System.out.println("Resume " + resume.getUuid() + " is not found in storage");
-        }
-    }
-
-    @Override
     public void save(Resume r) {
         if (getIndex(r.getUuid()) >= 0) {
             System.out.println("Resume " + r.getUuid() + " contained in storage");
