@@ -1,5 +1,8 @@
 package ru.GilvanovDr.WebApp.storage;
 
+import ru.GilvanovDr.WebApp.exception.ExistStorageException;
+import ru.GilvanovDr.WebApp.exception.NoExistStorageException;
+import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.util.Arrays;
@@ -17,14 +20,13 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void save(Resume r) {
         if (size == storage.length) {
-            System.out.println("Array is full, you need delete one or more Resume");
+            throw new StorageException("Storage overflow", r.getUuid());
         } else {
             int index = getIndex(r.getUuid());
             if (index >= 0) {
-                System.out.println("Resume " + r.getUuid() + " contained in storage");
+                throw new ExistStorageException(r.getUuid());
             } else {
                 addNewResume(r, index);
-
                 size++;
             }
         }
@@ -33,7 +35,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " is not found in storage");
+            throw new NoExistStorageException(uuid);
         } else {
             fillEmptyItem(index);
             storage[size - 1] = null;
@@ -46,7 +48,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (item >= 0) {
             storage[item] = new Resume(resume.getUuid());
         } else {
-            System.out.println("Resume " + resume.getUuid() + " is not found in storage");
+            throw new NoExistStorageException(resume.getUuid());
         }
     }
 
@@ -56,11 +58,10 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int item = getIndex(uuid);
-        if (item >= 0) {
-            return storage[item];
+        if (item < 0) {
+            throw new NoExistStorageException(uuid);
         } else {
-            System.out.println("Resume " + uuid + " is not found in storage");
-            return null;
+            return storage[item];
         }
     }
 
