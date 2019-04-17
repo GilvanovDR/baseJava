@@ -15,8 +15,8 @@ import java.lang.reflect.Field;
  *
  */
 
-public abstract class AbstractArrayStorageTest {
-    private Storage storage;
+public class AbstractArrayStorageTest {
+    private Storage storage = new SortedArrayStorage();
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -27,6 +27,7 @@ public abstract class AbstractArrayStorageTest {
         storage.save(new Resume(UUID_1));
         storage.save(new Resume(UUID_2));
         storage.save(new Resume(UUID_3));
+        System.out.println("before");
     }
 
 
