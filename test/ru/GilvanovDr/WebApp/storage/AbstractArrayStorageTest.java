@@ -1,6 +1,5 @@
 package ru.GilvanovDr.WebApp.storage;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.GilvanovDr.WebApp.exception.ExistStorageException;
@@ -10,28 +9,37 @@ import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.lang.reflect.Field;
 
+import static org.junit.Assert.assertEquals;
+
 /*
  * Create by GilvanovDR at 2019.
  *
  */
 
 public abstract class AbstractArrayStorageTest {
-    Storage storage;
+    private Storage storage;
 
-    public AbstractArrayStorageTest(Storage storage) {
+    protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
     private static final String UUID_1 = "uuid1";
+    private static final Resume RESUME_1 = new Resume(UUID_1);
     private static final String UUID_2 = "uuid2";
+    private static final Resume RESUME_2 = new Resume(UUID_2);
     private static final String UUID_3 = "uuid3";
+    private static final Resume RESUME_3 = new Resume(UUID_3);
+
+    private void assertSize(int size) {
+        assertEquals(size, storage.size());
+    }
 
     @Before
     public void setUp() {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(RESUME_1);
+        storage.save(RESUME_2);
+        storage.save(RESUME_3);
     }
 
 
@@ -54,12 +62,12 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void size() {
-        Assert.assertEquals(3, storage.size());
+        assertSize(3);
     }
 
     @Test
     public void get() {
-        Assert.assertEquals(UUID_1, storage.get(UUID_1).toString());
+        assertEquals(UUID_1, storage.get(UUID_1).toString());
     }
 
     @Test(expected = NoExistStorageException.class)
@@ -85,12 +93,17 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void clear() {
         storage.clear();
-        Assert.assertEquals(0, storage.size());
+        assertSize(0);
     }
 
     @Test
     public void getAll() {
-        storage.delete(UUID_2);
-        Assert.assertEquals(2,storage.getAll().length);
+        Resume[] result = storage.getAll();
+        assertEquals(3, result.length);
+        assertEquals(RESUME_1,result[0]);
+        assertEquals(RESUME_2,result[1]);
+        assertEquals(RESUME_3,result[2]);
+
+
     }
 }
