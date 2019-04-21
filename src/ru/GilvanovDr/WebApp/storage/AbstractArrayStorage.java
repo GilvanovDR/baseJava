@@ -8,7 +8,7 @@ import ru.GilvanovDr.WebApp.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    static final private int STORAGE_SIZE = 10000;
+    static final protected int STORAGE_SIZE = 10000;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size = 0;
 
