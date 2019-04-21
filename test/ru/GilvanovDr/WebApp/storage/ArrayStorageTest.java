@@ -1,25 +1,14 @@
 package ru.GilvanovDr.WebApp.storage;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 /*
  * Create by GilvanovDR at 2019.
  *
  */
 
-public class ArrayStorageTest extends AbstractArrayStorageTest{
+public class ArrayStorageTest extends AbstractArrayStorageTest {
 
-    @Test
-    public void addNewResume() {
+    public ArrayStorageTest() {
+        super(new ArrayStorage());
     }
 
-    @Test
-    public void fillEmptyItem() {
-    }
-
-    @Test
-    public void getIndex() {
-    }
 }
