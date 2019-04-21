@@ -6,23 +6,22 @@ package ru.GilvanovDr.WebApp;
  */
 
 import ru.GilvanovDr.WebApp.model.Resume;
-import ru.GilvanovDr.WebApp.storage.ArrayStorage;
-import ru.GilvanovDr.WebApp.storage.Storage;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MainReflection {
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Resume r = new Resume("uui1");
-        Storage stor = new ArrayStorage();
-        System.out.println((stor));
-        System.out.println(r);
-        Field field = r.getClass().getDeclaredFields()[0];
+        Class<? extends Resume> resumeClass = r.getClass();
+        Field field = resumeClass.getDeclaredFields()[0];
         field.setAccessible(true);
         System.out.println(field.get(r));
-        field.set(r,"sdf");
-        System.out.println(field.get(r));
-        //TODO: invoke r.toString via Reflection
+        field.set(r, "sdf");
+
+        Method method = resumeClass.getMethod("toString");
+        System.out.println(method.invoke(r));
     }
 
 }
