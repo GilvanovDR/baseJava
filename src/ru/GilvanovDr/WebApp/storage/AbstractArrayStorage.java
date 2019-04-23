@@ -7,10 +7,10 @@ import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements Storage {
-    static final protected int STORAGE_SIZE = 10000;
+public abstract class AbstractArrayStorage extends AbstractStorage {
+    protected final static int STORAGE_SIZE = 10000;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
-    protected int size = 0;
+
 
     protected abstract int getIndex(String uuid);
 
@@ -18,6 +18,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void addNewResume(Resume r, int index);
 
+    @Override
     public void save(Resume r) {
         if (size == storage.length) {
             throw new StorageException("Storage overflow", r.getUuid());
@@ -32,6 +33,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
@@ -43,6 +45,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public void update(Resume resume) {
         int item = getIndex(resume.getUuid());
         if (item >= 0) {
@@ -52,10 +55,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public int size() {
-        return size;
-    }
-
+    @Override
     public Resume get(String uuid) {
         int item = getIndex(uuid);
         if (item < 0) {
@@ -65,6 +65,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
@@ -73,8 +74,8 @@ public abstract class AbstractArrayStorage implements Storage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
+    @Override
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
-
 }
