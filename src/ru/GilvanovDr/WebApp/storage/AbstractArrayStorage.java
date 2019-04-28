@@ -8,9 +8,15 @@ import ru.GilvanovDr.WebApp.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
+
     protected final static int STORAGE_SIZE = 10000;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
+    int size = 0;
 
+    @Override
+    public int size() {
+        return size;
+    }
 
     protected abstract int getIndex(String uuid);
 
