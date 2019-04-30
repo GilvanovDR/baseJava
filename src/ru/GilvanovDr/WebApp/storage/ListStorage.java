@@ -8,10 +8,10 @@ package ru.GilvanovDr.WebApp.storage;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    Collection<Resume> storage = new ArrayList<>();
+    List<Resume> storage = new ArrayList<>();
 
     //========done
     @Override
@@ -34,18 +34,41 @@ public class ListStorage extends AbstractStorage {
         storage.add(r);
     }
 
-    //========do
     @Override
     public Resume get(String uuid) {
-        return null;
+        return storage.get(getIndex(uuid));
+    }
+
+    @Override
+    protected void fillEmptyItem(int index) {
+
+    }
+
+    @Override
+    protected void addNewResume(Resume r, int index) {
+
     }
 
     @Override
     public void delete(String uuid) {
+        storage.remove(getIndex(uuid));
+    }
+
+    protected int getIndex(String uuid) {
+        for (Resume res : storage) {
+            if (res.getUuid().equals(uuid)) {
+                return storage.indexOf(res);
+            }
+        }
+        return -1;
     }
 
     @Override
     public void update(Resume resume) {
-
+        storage.add(getIndex(resume.getUuid()), resume);
     }
+
+    //========do
+
+
 }

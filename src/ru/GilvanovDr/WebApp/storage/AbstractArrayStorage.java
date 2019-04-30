@@ -18,12 +18,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected abstract int getIndex(String uuid);
-
-    protected abstract void fillEmptyItem(int index);
-
-    protected abstract void addNewResume(Resume r, int index);
-
     @Override
     public void save(Resume r) {
         if (size == storage.length) {

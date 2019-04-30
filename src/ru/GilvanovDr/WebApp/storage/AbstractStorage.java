@@ -5,6 +5,14 @@ package ru.GilvanovDr.WebApp.storage;
  *
  */
 
+import ru.GilvanovDr.WebApp.model.Resume;
+
 public abstract class AbstractStorage implements Storage {
+    protected abstract int getIndex(String uuid);
+
+    protected abstract void fillEmptyItem(int index);
+
+    protected abstract void addNewResume(Resume r, int index);
+
 
 }
