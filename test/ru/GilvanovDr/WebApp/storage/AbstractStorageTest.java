@@ -15,10 +15,10 @@ import static org.junit.Assert.assertEquals;
  *
  */
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
     private Storage storage;
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -106,6 +106,7 @@ public abstract class AbstractArrayStorageTest {
         storage.save(new Resume(UUID_1));
     }
 
+    //TODO only for ARRAYS
     @Test(expected = StorageException.class)
     public void overFlow() {
         int range = AbstractArrayStorage.STORAGE_SIZE;

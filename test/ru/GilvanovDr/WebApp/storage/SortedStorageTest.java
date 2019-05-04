@@ -5,9 +5,9 @@ package ru.GilvanovDr.WebApp.storage;
  *
  */
 
-public class SortedArrayStorageTest extends AbstractArrayStorageTest {
+public class SortedStorageTest extends AbstractStorageTest {
 
-    public SortedArrayStorageTest() {
+    public SortedStorageTest() {
         super(new SortedArrayStorage());
     }
 
