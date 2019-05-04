@@ -1,7 +1,5 @@
 package ru.GilvanovDr.WebApp.storage;
 
-import ru.GilvanovDr.WebApp.exception.ExistStorageException;
-import ru.GilvanovDr.WebApp.exception.NoExistStorageException;
 import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
 
@@ -13,63 +11,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     int size = 0;
 
-    @Override
-    public int size() {
-        return size;
-    }
+    protected abstract void addNewResume(Resume r, int index);
 
-    @Override
-    public void save(Resume r) {
-        if (size == storage.length) {
-            throw new StorageException("Storage overflow", r.getUuid());
-        } else {
-            int index = getIndex(r.getUuid());
-            if (index >= 0) {
-                throw new ExistStorageException(r.getUuid());
-            } else {
-                addNewResume(r, index);
-                size++;
-            }
-        }
-    }
+    protected abstract Integer getSearchKey(String uuid);
 
-    @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NoExistStorageException(uuid);
-        } else {
-            fillEmptyItem(index);
-            storage[size - 1] = null;
-            size--;
-        }
-    }
-
-    @Override
-    public void update(Resume resume) {
-        int item = getIndex(resume.getUuid());
-        if (item >= 0) {
-            storage[item] = new Resume(resume.getUuid());
-        } else {
-            throw new NoExistStorageException(resume.getUuid());
-        }
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        int item = getIndex(uuid);
-        if (item < 0) {
-            throw new NoExistStorageException(uuid);
-        } else {
-            return storage[item];
-        }
-    }
-
-    @Override
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
+    protected abstract void fillEmptyItem(int index);
 
     /**
      * @return array, contains only Resumes in storage (without null)
@@ -78,4 +24,49 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
+
+    @Override
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    protected void doUpdate(Resume resume, Object item) {
+        storage[(Integer) item] = resume;
+    }
+
+    @Override
+    protected void doSave(Resume r, Object index) {
+        if (size == STORAGE_SIZE) {
+            throw new StorageException("Storage overflow", r.getUuid());
+        } else {
+            addNewResume(r, (Integer) index);
+            size++;
+        }
+    }
+
+    @Override
+    protected void doDelete(Object index) {
+        fillEmptyItem((Integer) index);
+        storage[size - 1] = null;
+        size--;
+    }
+
+    @Override
+    protected Resume doGet(Object item) {
+        return storage[(Integer) item];
+    }
+
+    @Override
+    protected boolean isExist(Object item) {
+        return (Integer) item >= 0;
+    }
+
+
 }
