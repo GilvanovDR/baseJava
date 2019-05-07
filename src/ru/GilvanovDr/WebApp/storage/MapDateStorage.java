@@ -2,9 +2,7 @@ package ru.GilvanovDr.WebApp.storage;
 
 import ru.GilvanovDr.WebApp.model.Resume;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /*
  * Create by GilvanovDR at 2019.
@@ -12,7 +10,7 @@ import java.util.Map;
  */
 
 public class MapDateStorage extends AbstractStorage {
-    private Map<Date, Resume> map = new HashMap();
+    private Map<Date, Resume> map = new HashMap<>();
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
@@ -50,8 +48,10 @@ public class MapDateStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return map.values().toArray(new Resume[map.size()]);
+    public List<Resume> getAllSorted() {
+        List<Resume> list = new ArrayList<>(map.values());
+        list.sort(RESUME_COMPARATOR);
+        return list;
     }
 
     @Override

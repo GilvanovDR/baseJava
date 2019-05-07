@@ -3,9 +3,11 @@ package ru.GilvanovDr.WebApp.storage;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
+
     private List<Resume> list = new ArrayList<>();
 
     @Override
@@ -46,8 +48,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return list.toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        list.sort(RESUME_COMPARATOR);
+        return list;
     }
 
     @Override

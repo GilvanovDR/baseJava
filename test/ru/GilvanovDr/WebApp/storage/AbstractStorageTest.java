@@ -6,6 +6,8 @@ import ru.GilvanovDr.WebApp.exception.ExistStorageException;
 import ru.GilvanovDr.WebApp.exception.NoExistStorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 /*
@@ -24,7 +26,7 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_4 = new Resume(UUID_4);
     private Storage storage;
 
-    protected AbstractStorageTest(Storage storage) {
+    AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -37,15 +39,15 @@ public abstract class AbstractStorageTest {
     }
 
     @Before
-    public void setUp() throws InterruptedException {
+    public void setUp() /*throws InterruptedException*/ {
         storage.clear();
-        Thread.sleep(1000);
+        //  Thread.sleep(1000);
         storage.save(RESUME_1);
-        Thread.sleep(1000);
+        //   Thread.sleep(1000);
         storage.save(RESUME_2);
-        Thread.sleep(1000);
+        //   Thread.sleep(1000);
         storage.save(RESUME_3);
-        Thread.sleep(1000);
+        //   Thread.sleep(1000);
     }
 
 
@@ -115,11 +117,11 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] result = storage.getAll();
-        assertEquals(3, result.length);
-        assertEquals(RESUME_1, result[0]);
-        assertEquals(RESUME_2, result[1]);
-        assertEquals(RESUME_3, result[2]);
+        List<Resume> result = storage.getAllSorted();
+        assertEquals(3, result.size());
+        assertEquals(RESUME_1, result.get(0));
+        assertEquals(RESUME_2, result.get(1));
+        assertEquals(RESUME_3, result.get(2));
 
 
     }
