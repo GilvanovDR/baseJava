@@ -16,7 +16,6 @@ public class MapDateStorage extends AbstractStorage {
         return (Date) searchKey;
     }
 
-
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
         map.put((Date) searchKey, resume);
@@ -67,6 +66,5 @@ public class MapDateStorage extends AbstractStorage {
     @Override
     public void clear() {
         map.clear();
-
     }
 }

@@ -12,6 +12,7 @@ import ru.GilvanovDr.WebApp.model.Resume;
 import java.util.Comparator;
 
 public abstract class AbstractStorage implements Storage {
+
     static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
     protected abstract void doUpdate(Resume resume, Object searchKey);

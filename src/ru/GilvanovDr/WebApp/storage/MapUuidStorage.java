@@ -59,6 +59,5 @@ public class MapUuidStorage extends AbstractStorage {
     @Override
     public void clear() {
         map.clear();
-
     }
 }

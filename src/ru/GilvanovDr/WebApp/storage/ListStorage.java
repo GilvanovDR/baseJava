@@ -3,7 +3,6 @@ package ru.GilvanovDr.WebApp.storage;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -25,7 +24,6 @@ public class ListStorage extends AbstractStorage {
         return searchKey != null;
     }
 
-
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
         list.set((Integer) searchKey, resume);
@@ -35,7 +33,6 @@ public class ListStorage extends AbstractStorage {
     protected void doSave(Resume r, Object searchKey) {
         list.add(r);
     }
-
 
     @Override
     protected void doDelete(Object searchKey) {

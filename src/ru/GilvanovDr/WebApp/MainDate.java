@@ -7,7 +7,7 @@ package ru.GilvanovDr.WebApp;
 
 import java.util.Date;
 
-public class DateMain {
+public class MainDate {
     public static void main(String[] args) throws InterruptedException {
         Date date1 = new Date();
         Date date2 = new Date();
