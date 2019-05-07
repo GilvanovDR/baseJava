@@ -104,9 +104,6 @@ public abstract class AbstractStorageTest {
         storage.save(new Resume(UUID_1));
     }
 
-    //TODO only for ARRAYS
-
-
     @Test
     public void clear() {
         storage.clear();

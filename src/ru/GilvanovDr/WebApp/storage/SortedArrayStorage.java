@@ -3,8 +3,11 @@ package ru.GilvanovDr.WebApp.storage;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
+    private final static Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
+
     @Override
     protected void addNewResume(Resume r, int index) {
         index = -(index + 1);
@@ -20,6 +23,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected Integer getSearchKey(String uuid) {
         Resume r = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, size, r);
+        return Arrays.binarySearch(storage, 0, size, r, RESUME_COMPARATOR);
     }
 }

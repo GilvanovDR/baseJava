@@ -5,8 +5,8 @@ import ru.GilvanovDr.WebApp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
-    private Map<String, Resume> map = new HashMap();
+public class MapUuidStorage extends AbstractStorage {
+    private Map<String, Resume> map = new HashMap<>();
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
@@ -15,7 +15,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return map.containsKey((String) searchKey);
+        return map.containsKey(searchKey);
     }
 
     @Override
@@ -30,12 +30,12 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object searchKey) {
-        map.remove((String) searchKey);
+        map.remove(searchKey);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get((String) searchKey);
+        return map.get(searchKey);
     }
 
     @Override
