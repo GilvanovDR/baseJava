@@ -21,7 +21,7 @@ public class MapDateStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return map.containsKey((Date) searchKey);
+        return map.containsKey(searchKey);
     }
 
     @Override
@@ -30,18 +30,23 @@ public class MapDateStorage extends AbstractStorage {
     }
 
     @Override
-    protected String getSearchKey(String uuid) {
-        return uuid;
+    protected Date getSearchKey(String uuid) {
+        for (Map.Entry<Date, Resume> entry : map.entrySet()) {
+            if (entry.getValue().getUuid().equals(uuid)) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        map.remove((Date) searchKey);
+        map.remove(searchKey);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get((Date) searchKey);
+        return map.get(searchKey);
     }
 
     @Override

@@ -14,12 +14,6 @@ import static org.junit.Assert.assertEquals;
  */
 
 public abstract class AbstractStorageTest {
-    private Storage storage;
-
-    protected AbstractStorageTest(Storage storage) {
-        this.storage = storage;
-    }
-
     private static final String UUID_1 = "uuid1";
     private static final Resume RESUME_1 = new Resume(UUID_1);
     private static final String UUID_2 = "uuid2";
@@ -28,6 +22,11 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_3 = new Resume(UUID_3);
     private static final String UUID_4 = "uuid4";
     private static final Resume RESUME_4 = new Resume(UUID_4);
+    private Storage storage;
+
+    protected AbstractStorageTest(Storage storage) {
+        this.storage = storage;
+    }
 
     private void assertSize(int size) {
         assertEquals(size, storage.size());
@@ -38,11 +37,15 @@ public abstract class AbstractStorageTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws InterruptedException {
         storage.clear();
+        Thread.sleep(1000);
         storage.save(RESUME_1);
+        Thread.sleep(1000);
         storage.save(RESUME_2);
+        Thread.sleep(1000);
         storage.save(RESUME_3);
+        Thread.sleep(1000);
     }
 
 
