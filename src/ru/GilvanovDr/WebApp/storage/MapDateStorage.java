@@ -12,6 +12,11 @@ import java.util.*;
 public class MapDateStorage extends AbstractStorage {
     private Map<Date, Resume> map = new HashMap<>();
 
+    private Date searchKeyAsDate(Object searchKey) {
+        return (Date) searchKey;
+    }
+
+
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
         map.put((Date) searchKey, resume);
@@ -19,7 +24,7 @@ public class MapDateStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return map.containsKey(searchKey);
+        return map.containsKey(searchKeyAsDate(searchKey));
     }
 
     @Override
@@ -39,12 +44,12 @@ public class MapDateStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object searchKey) {
-        map.remove(searchKey);
+        map.remove(searchKeyAsDate(searchKey));
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get(searchKey);
+        return map.get(searchKeyAsDate(searchKey));
     }
 
     @Override
