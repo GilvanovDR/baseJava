@@ -10,30 +10,30 @@ import java.util.*;
  */
 
 public class MapDateStorage extends AbstractStorage {
-    private Map<Date, Resume> map = new HashMap<>();
+    private Map<Long, Resume> map = new HashMap<>();
 
-    private Date searchKeyAsDate(Object searchKey) {
-        return (Date) searchKey;
+    private Long searchKeyAsLong(Object searchKey) {
+        return (Long) searchKey;
     }
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        map.put((Date) searchKey, resume);
+        map.put(searchKeyAsLong(searchKey), resume);
     }
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return map.containsKey(searchKeyAsDate(searchKey));
+        return map.containsKey(searchKeyAsLong(searchKey));
     }
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        map.put(new Date(), r);
+        map.put(System.currentTimeMillis(), r);
     }
 
     @Override
-    protected Date getSearchKey(String uuid) {
-        for (Map.Entry<Date, Resume> entry : map.entrySet()) {
+    protected Long getSearchKey(String uuid) {
+        for (Map.Entry<Long, Resume> entry : map.entrySet()) {
             if (entry.getValue().getUuid().equals(uuid)) {
                 return entry.getKey();
             }
@@ -43,12 +43,12 @@ public class MapDateStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object searchKey) {
-        map.remove(searchKeyAsDate(searchKey));
+        map.remove(searchKeyAsLong(searchKey));
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get(searchKeyAsDate(searchKey));
+        return map.get(searchKeyAsLong(searchKey));
     }
 
     @Override

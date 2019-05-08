@@ -39,15 +39,15 @@ public abstract class AbstractStorageTest {
     }
 
     @Before
-    public void setUp() /*throws InterruptedException*/ {
+    public void setUp() throws InterruptedException {
         storage.clear();
-        //  Thread.sleep(1000);
+        Thread.sleep(1);
         storage.save(RESUME_1);
-        //   Thread.sleep(1000);
+        Thread.sleep(1);
         storage.save(RESUME_2);
-        //   Thread.sleep(1000);
+        Thread.sleep(1);
         storage.save(RESUME_3);
-        //   Thread.sleep(1000);
+        Thread.sleep(1);
     }
 
 
