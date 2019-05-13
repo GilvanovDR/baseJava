@@ -17,17 +17,13 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
-    private static final String FULL_NAME_1 = "full_name1";
-    private static final Resume RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
+    private static final Resume RESUME_1 = new Resume(UUID_1,"Name1");
     private static final String UUID_2 = "uuid2";
-    private static final String FULL_NAME_2 = "full_name2";
-    private static final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
+    private static final Resume RESUME_2 = new Resume(UUID_2,"Name2");
     private static final String UUID_3 = "uuid3";
-    private static final String FULL_NAME_3 = "full_name3";
-    private static final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
+    private static final Resume RESUME_3 = new Resume(UUID_3,"Name3");
     private static final String UUID_4 = "uuid4";
-    private static final String FULL_NAME_4 = "full_name4";
-    private static final Resume RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
+    private static final Resume RESUME_4 = new Resume(UUID_4,"Name4");
     private Storage storage;
 
     AbstractStorageTest(Storage storage) {
@@ -54,7 +50,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistStorageException.class)
     public void saveExist() {
-        storage.save(new Resume(UUID_1));
+        storage.save(new Resume(UUID_1,"Name1"));
     }
 
     @Test
@@ -107,7 +103,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistStorageException.class)
     public void getExist() {
-        storage.save(new Resume(UUID_1));
+        storage.save(new Resume(UUID_1,"Name1"));
     }
 
     @Test

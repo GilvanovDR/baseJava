@@ -18,11 +18,11 @@ public class AbstractArrayStorageTest extends AbstractStorageTest {
         int range = AbstractArrayStorage.STORAGE_SIZE;
         try {
             for (int i = 4; i <= range; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume("resume" + i));
             }
         } catch (StorageException e) {
             Assert.fail();
         }
-        storage.save(new Resume());
+        storage.save(new Resume("overFlow"));
     }
 }
