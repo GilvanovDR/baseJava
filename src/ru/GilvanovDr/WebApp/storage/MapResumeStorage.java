@@ -7,41 +7,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapUuidStorage extends AbstractStorage {
-    private Map<String, Resume> map = new HashMap<>();
+/*
+ * Create by GilvanovDR at 2019.
+ *
+ */
 
-    private String searchKeyAsString(Object searchKey) {
-        return (String) searchKey;
-    }
+public class MapResumeStorage extends AbstractStorage {
+    private Map<String, Resume> map = new HashMap<>();
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        map.put((String) searchKey, resume);
+        map.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return map.containsKey(searchKeyAsString(searchKey));
+    protected boolean isExist(Object resume) {
+        return resume != null;
     }
 
     @Override
-    protected void doSave(Resume r, Object searchKey) {
-        map.put(r.getUuid(), r);
+    protected void doSave(Resume r, Object resume) {
+        map.put(r.toString(), r);
     }
 
     @Override
-    protected String getSearchKey(String uuid) {
-        return uuid;
+    protected Resume getSearchKey(String uuid) {
+        return map.get(uuid);
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        map.remove(searchKeyAsString(searchKey));
+    protected void doDelete(Object resume) {
+        map.remove(((Resume) resume).getUuid());
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return map.get(searchKeyAsString(searchKey));
+    protected Resume doGet(Object resume) {
+        return (Resume) resume;
     }
 
     @Override

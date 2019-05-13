@@ -5,10 +5,25 @@ import java.util.UUID;
 /**
  * Initial resume class
  */
-public class Resume{
+public class Resume {
 
     private final String uuid;
     private String fullName;
+
+    public Resume(String uuid, String fullName) {
+        this.uuid = uuid;
+        this.fullName = fullName;
+
+    }
+
+    public Resume(String uuid) {
+        this.uuid = uuid;
+        this.fullName = "defaultPerson";
+    }
+
+    public Resume() {
+        this(UUID.randomUUID().toString());
+    }
 
     public String getFullName() {
         return fullName;
@@ -22,17 +37,9 @@ public class Resume{
         return uuid;
     }
 
-    public Resume(String uuid) {
-        this.uuid = uuid;
-    }
-
     @Override
     public String toString() {
         return uuid;
-    }
-
-    public Resume() {
-        this(UUID.randomUUID().toString());
     }
 
     @Override
