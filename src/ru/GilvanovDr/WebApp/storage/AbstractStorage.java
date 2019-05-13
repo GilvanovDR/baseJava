@@ -10,11 +10,12 @@ import ru.GilvanovDr.WebApp.exception.NoExistStorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
 
     static final Comparator<Resume> RESUME_UUID_COMPARATOR = Comparator.comparing(Resume::getUuid);
-    static final Comparator<Resume> RESUME_FULL_NAME_COMPARATOR = Comparator.comparing(Resume::getFullName);
+    private static final Comparator<Resume> RESUME_FULL_NAME_COMPARATOR = Comparator.comparing(Resume::getFullName);
 
     protected abstract void doUpdate(Resume resume, Object searchKey);
 
@@ -27,6 +28,15 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void doDelete(Object searchKey);
 
     protected abstract Resume doGet(Object searchKey);
+
+    protected abstract List<Resume> getStorageAsList();
+
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> list = getStorageAsList();
+        list.sort(RESUME_FULL_NAME_COMPARATOR.thenComparing(RESUME_UUID_COMPARATOR));
+        return list;
+    }
 
     private Object getExistedSearchKey(String uuid) {
         Object searchKey = getSearchKey(uuid);

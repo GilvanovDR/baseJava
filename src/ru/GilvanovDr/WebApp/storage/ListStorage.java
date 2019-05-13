@@ -44,9 +44,9 @@ public class ListStorage extends AbstractStorage {
         return list.get((Integer) searchKey);
     }
 
+
     @Override
-    public List<Resume> getAllSorted() {
-        list.sort(RESUME_FULL_NAME_COMPARATOR.thenComparing(RESUME_UUID_COMPARATOR));
+    protected List<Resume> getStorageAsList() {
         return list;
     }
 
