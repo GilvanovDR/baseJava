@@ -6,7 +6,7 @@ import ru.GilvanovDr.WebApp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     final static int STORAGE_SIZE = 10000;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
@@ -35,35 +35,35 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Resume resume, Object item) {
-        storage[(Integer) item] = resume;
+    protected void doUpdate(Resume resume, Integer item) {
+        storage[item] = resume;
     }
 
     @Override
-    protected void doSave(Resume r, Object index) {
+    protected void doSave(Resume r, Integer index) {
         if (size == STORAGE_SIZE) {
             throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            addNewResume(r, (Integer) index);
+            addNewResume(r,index);
             size++;
         }
     }
 
     @Override
-    protected void doDelete(Object index) {
-        fillEmptyItem((Integer) index);
+    protected void doDelete(Integer index) {
+        fillEmptyItem(index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected Resume doGet(Object item) {
-        return storage[(Integer) item];
+    protected Resume doGet(Integer item) {
+        return storage[item];
     }
 
     @Override
-    protected boolean isExist(Object item) {
-        return (Integer) item >= 0;
+    protected boolean isExist(Integer item) {
+        return item >= 0;
     }
 
 
