@@ -11,9 +11,10 @@ import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class AbstractStorage<SK> implements Storage {
-
+    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
     static final Comparator<Resume> RESUME_UUID_COMPARATOR = Comparator.comparing(Resume::getUuid);
     private static final Comparator<Resume> RESUME_FULL_NAME_COMPARATOR = Comparator.comparing(Resume::getFullName);
 
@@ -35,12 +36,14 @@ public abstract class AbstractStorage<SK> implements Storage {
     public List<Resume> getAllSorted() {
         List<Resume> list = getStorageAsList();
         list.sort(RESUME_FULL_NAME_COMPARATOR.thenComparing(RESUME_UUID_COMPARATOR));
+        LOG.info("GetAllSorted " + list);
         return list;
     }
 
     private SK getExistedSearchKey(String uuid) {
         SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
+            LOG.warning("Resume " + uuid + " is not found in storage");
             throw new NoExistStorageException(uuid);
         }
         return searchKey;
@@ -49,6 +52,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     private SK getNotExistedSearchKey(String uuid) {
         SK searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
+            LOG.warning("Resume " + uuid + " contained in storage");
             throw new ExistStorageException(uuid);
         }
         return searchKey;
@@ -56,24 +60,28 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public void save(Resume r) {
+        LOG.info("Get " + r);
         SK searchKey = getNotExistedSearchKey(r.getUuid());
         doSave(r, searchKey);
     }
 
     @Override
     public void update(Resume resume) {
+        LOG.info("Update " + resume);
         SK searchKey = getExistedSearchKey(resume.getUuid());
         doUpdate(resume, searchKey);
     }
 
     @Override
     public void delete(String uuid) {
+        LOG.info("Delete " + uuid);
         SK searchKey = getExistedSearchKey(uuid);
         doDelete(searchKey);
     }
 
     @Override
     public Resume get(String uuid) {
+        LOG.info("Get " + uuid);
         SK searchKey = getExistedSearchKey(uuid);
         return doGet(searchKey);
     }
