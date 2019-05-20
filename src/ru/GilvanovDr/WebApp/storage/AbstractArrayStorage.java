@@ -44,7 +44,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         if (size == STORAGE_SIZE) {
             throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            addNewResume(r,index);
+            addNewResume(r, index);
             size++;
         }
     }
