@@ -10,7 +10,7 @@ public class TextSection extends Section {
     private final String content;
 
     public TextSection(String content) {
-        Objects.requireNonNull(content,"content must be not Null");
+        Objects.requireNonNull(content, "content must be not Null");
         this.content = content;
     }
 

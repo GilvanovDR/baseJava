@@ -7,15 +7,15 @@ package ru.GilvanovDr.WebApp.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Organization{
+public class Organization {
     private final Link homePage;
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String title;
     private final String description;
 
-    public Organization(String name,String url, LocalDate startDate, LocalDate endDate, String title, String description) {
-        this.homePage = new Link(name,url);
+    public Organization(String name, String url, LocalDate startDate, LocalDate endDate, String title, String description) {
+        this.homePage = new Link(name, url);
         Objects.requireNonNull(startDate, "startDate must be not Null");
         Objects.requireNonNull(endDate, "endDate must be not Null");
         Objects.requireNonNull(title, "title must be not Null");
