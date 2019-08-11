@@ -1,5 +1,6 @@
 package ru.GilvanovDr.WebApp.model;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -9,7 +10,10 @@ import java.util.UUID;
 public class Resume {
 
     private final String uuid;
+
     private final String fullName;
+
+    private Map<ContactType, String> contacts;
 
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
