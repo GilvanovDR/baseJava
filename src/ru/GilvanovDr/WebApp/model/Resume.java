@@ -34,6 +34,7 @@ public class Resume {
     }
 
     public String getContact(ContactType type) {
+
         return contacts.get(type);
     }
 
@@ -57,8 +58,7 @@ public class Resume {
 
         Resume resume = (Resume) o;
 
-        if (!uuid.equals(resume.uuid)) return false;
-        return fullName.equals(resume.fullName);
+        return uuid.equals(resume.uuid) && fullName.equals(resume.fullName);
     }
 
     @Override
