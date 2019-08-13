@@ -6,22 +6,29 @@ package ru.GilvanovDr.WebApp;
  */
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Objects;
 
 public class MainFile {
     public static void main(String[] args) {
-        File file = new File(".\\src\\ru\\GilvanovDr\\WebApp\\resource\\text.txt");
-        /*System.out.println(file.getCanonicalPath());
-        System.out.println(file.getCanonicalFile());
-        File dir = new File("./src/ru/GilvanovDr/WebApp");
-        System.out.println(Arrays.toString(dir.list()));*/
-        try (InputStream fis = new FileInputStream(file)) {
-            System.out.println(fis.read());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        File file = new File("D:\\Java Project\\baseJava");
+        getFileTree(file, 0);
+    }
+
+    private static void getFileTree(File file, int i) {
+        for (int j = 0; j < i; j++) {
+            System.out.print("\t");
         }
+        if (file.isDirectory()) {
+            i++;
+            System.out.println(file.getName() + ":");
+            for (File file1 : Objects.requireNonNull(file.listFiles())) {
+                getFileTree(file1, i);
+            }
+
+        } else {
+            System.out.println(file.getName());
+        }
+
     }
 
 
