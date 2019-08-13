@@ -10,6 +10,7 @@ import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doUpdate(Resume resume, File file) {
+        try {
+            doWrite(resume, file);
+        } catch (IOException e) {
+            throw new StorageException("IO error", resume.getUuid(), e);
+        }
         //тоже самое что и doSave только без создания фала
     }
 
@@ -48,7 +54,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    abstract void doWrite(Resume r, File file) throws IOException;
+    protected abstract void doWrite(Resume r, File file) throws IOException;
 
     @Override
     protected File getSearchKey(String uuid) {
@@ -58,30 +64,50 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doDelete(File file) {
         if (!file.delete()) {
-            throw new StorageException("Can't delete file", file.getName());
+            throw new StorageException("IO error", doRead(file).getUuid());
         }
     }
 
     @Override
     protected Resume doGet(File file) {
         //abstract doRead
-        return null;
+        return doRead(file);
     }
 
     @Override
     protected List<Resume> getStorageAsList() {
+        List<Resume> list = new ArrayList<>();
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
+            list.add(doRead(file));
+        }
+
         // abstract doRead from file
-        return null;
+        return list;
     }
+
+    protected abstract Resume doRead(File file);
 
     @Override
     public int size() {
+        int counter = 0;
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
+            if (file.isFile()) {
+                counter++;
+            }
+        }
         //посчитать сколько файлов в каталоге
-        return 0;
+        return counter;
     }
 
     @Override
     public void clear() {
-        //удалить все из каталога
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
+            if (file.isFile()) {
+                if (file.delete()) {
+                    throw new StorageException("IO error", doRead(file).getUuid());
+                }
+            }
+            //удалить все из каталога
+        }
     }
 }
