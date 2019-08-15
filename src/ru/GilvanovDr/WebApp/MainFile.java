@@ -20,7 +20,7 @@ public class MainFile {
         }
         if (file.isDirectory()) {
             i++;
-            System.out.println(file.getName() + ":");
+            System.out.println(file.getName() + "\\");
             for (File file1 : Objects.requireNonNull(file.listFiles())) {
                 getFileTree(file1, i);
             }
@@ -28,8 +28,5 @@ public class MainFile {
         } else {
             System.out.println(file.getName());
         }
-
     }
-
-
 }
