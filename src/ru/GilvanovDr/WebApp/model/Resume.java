@@ -33,9 +33,16 @@ public class Resume {
         return sections.get(type);
     }
 
-    public String getContact(ContactType type) {
+    public void addSection(SectionType type, Section value) {
+        sections.put(type, value);
+    }
 
+    public String getContact(ContactType type) {
         return contacts.get(type);
+    }
+
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
     }
 
     public String getFullName() {
