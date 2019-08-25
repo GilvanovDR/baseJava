@@ -23,7 +23,8 @@ public class Organization {
 
     }
 
-    public Organization(Link homePage, List<Position> positions) {
+
+    private Organization(Link homePage, List<Position> positions) {
         this.homePage = homePage;
         this.positions = positions;
     }
@@ -62,7 +63,7 @@ public class Organization {
             this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
-        public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
+        Position(LocalDate startDate, LocalDate endDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must be not Null");
             Objects.requireNonNull(endDate, "endDate must be not Null");
             Objects.requireNonNull(title, "title must be not Null");
