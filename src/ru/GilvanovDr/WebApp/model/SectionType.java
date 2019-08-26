@@ -4,7 +4,9 @@ package ru.GilvanovDr.WebApp.model;
  * GilvanovDR 2019.
  */
 
-public enum SectionType {
+import java.io.Serializable;
+
+public enum SectionType implements Serializable {
     PERSONAL("Личные качества"),
     OBJECTIVE("Позиция"),
     ACHIEVEMENT("Достижения"),
@@ -12,6 +14,7 @@ public enum SectionType {
     EXPERIENCE("Опыт работы"),
     EDUCATION("Образование");
 
+    private static final long serialVersionUID = 1L;
     private final String title;
 
     SectionType(String title) {

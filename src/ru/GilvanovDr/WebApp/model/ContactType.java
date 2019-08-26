@@ -3,7 +3,10 @@ package ru.GilvanovDr.WebApp.model;
  * GilvanovDR 2019.
  */
 
-public enum ContactType {
+import java.io.Serializable;
+
+public enum ContactType implements Serializable {
+
     PHONE("Телефон"),
     MOBILE("Мобильный"),
     HOME_PHONE("Домшний телфон"),
@@ -14,6 +17,7 @@ public enum ContactType {
     STACKOVERFLOW("Профиль Stackoverflow"),
     HOME_PAGE("Домашняя страница");
 
+    private static final long serialVersionUID = 1L;
     private final String title;
 
     ContactType(String title) {

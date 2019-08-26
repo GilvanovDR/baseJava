@@ -4,6 +4,7 @@ package ru.GilvanovDr.WebApp.model;
  * GilvanovDR 2019.
  */
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -14,7 +15,8 @@ import java.util.Objects;
 import static ru.GilvanovDr.WebApp.utils.DateUtil.NOW;
 import static ru.GilvanovDr.WebApp.utils.DateUtil.of;
 
-public class Organization {
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final Link homePage;
     private List<Position> positions = new ArrayList<>();
 
@@ -49,7 +51,8 @@ public class Organization {
         return Objects.hash(homePage, positions);
     }
 
-    public static class Position {
+    public static class Position implements Serializable {
+        private static final long serialVersionUID = 1L;
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String title;
