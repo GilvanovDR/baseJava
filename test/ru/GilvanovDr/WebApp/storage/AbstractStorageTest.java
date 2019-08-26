@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static ru.GilvanovDr.WebApp.storage.ResumeTestData.*;
 
 /*
@@ -73,6 +74,9 @@ public abstract class AbstractStorageTest {
     @Test
 
     public void update() {
+        Resume newResume = new Resume(UUID_1,"new Name");
+        storage.update(newResume);
+        assertTrue(newResume.equals(storage.get(UUID_1)));
 //        storage.update(new Resume("dummy"));
     }
 
