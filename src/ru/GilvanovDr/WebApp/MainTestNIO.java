@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class TestNIO {
+public class MainTestNIO {
     public static void main(String[] args) throws InterruptedException, IOException {
         Path path1 = Paths.get("D:\\Java Project\\baseJava\\src\\storage");
         Path path = Paths.get(path1.toString(), "uuid5");
