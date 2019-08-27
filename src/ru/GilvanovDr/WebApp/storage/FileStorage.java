@@ -15,13 +15,13 @@ import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
     private File directory;
-    private Strategy strategy;
+    private ObjectStreamSerialization objectStreamSerialization;
 
-    // protected abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to strategy
+    // protected abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to objectStreamSerialization
 
-    // protected abstract Resume doRead(InputStream is) throws IOException; delegate to strategy
+    // protected abstract Resume doRead(InputStream is) throws IOException; delegate to objectStreamSerialization
 
-    protected FileStorage(File directory, Strategy strategy) {
+    FileStorage(File directory, ObjectStreamSerialization objectStreamSerialization) {
         Objects.requireNonNull(directory, "directory must be not Null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -30,14 +30,14 @@ public class FileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " can't read/write");
         }
         this.directory = directory;
-        this.strategy = strategy;
-        Objects.requireNonNull(strategy, "Strategy of serialization must be not null");
+        this.objectStreamSerialization = objectStreamSerialization;
+        Objects.requireNonNull(objectStreamSerialization, "ObjectStreamSerialization of serialization must be not null");
     }
 
     @Override
     protected void doUpdate(Resume resume, File file) {
         try {
-            strategy.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            objectStreamSerialization.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Can't write file", resume.getUuid(), e);
         }
@@ -76,7 +76,7 @@ public class FileStorage extends AbstractStorage<File> {
     protected Resume doGet(File file) {
         //abstract doRead
         try {
-            return strategy.doRead(new BufferedInputStream(new FileInputStream(file)));
+            return objectStreamSerialization.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File read error", file.getName(), e);
         }

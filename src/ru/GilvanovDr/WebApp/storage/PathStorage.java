@@ -19,29 +19,29 @@ import java.util.stream.Collectors;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
-    private Strategy strategy;
+    private ObjectStreamSerialization objectStreamSerialization;
 
-    public PathStorage(String dir, Strategy strategy) {
+    PathStorage(String dir, ObjectStreamSerialization objectStreamSerialization) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + "is not directory or is not writable");
         }
-        this.strategy = strategy;
-        Objects.requireNonNull(strategy, "Strategy of serialization must be not null");
+        this.objectStreamSerialization = objectStreamSerialization;
+        Objects.requireNonNull(objectStreamSerialization, "ObjectStreamSerialization of serialization must be not null");
     }
 
     //запись в поток
-    //  public abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to strategy.class
+    //  public abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to objectStreamSerialization.class
 
     //чтение из потока
-    //  public abstract Resume doRead(InputStream is) throws IOException; delegate to strategy.class
+    //  public abstract Resume doRead(InputStream is) throws IOException; delegate to objectStreamSerialization.class
 
     @Override
     //обновлени резюме в файле
     protected void doUpdate(Resume resume, Path path) {
         try {
-            strategy.doWrite(resume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
+            objectStreamSerialization.doWrite(resume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
         } catch (IOException e) {
             throw new StorageException("Can't write file", resume.getUuid(), e);
         }
@@ -52,7 +52,7 @@ public class PathStorage extends AbstractStorage<Path> {
     protected Resume doGet(Path path) {
 
         try {
-            return strategy.doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
+            return objectStreamSerialization.doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
         } catch (IOException e) {
             throw new StorageException("File read error", path.toString(), e);
         }

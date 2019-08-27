@@ -10,7 +10,7 @@ import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.io.*;
 
-public class Strategy implements StorageStrategy {
+public class ObjectStreamSerialization implements SerializationStrategy {
     @Override
     public void doWrite(Resume r, OutputStream oi) throws IOException {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(oi)) {
@@ -21,7 +21,7 @@ public class Strategy implements StorageStrategy {
 
     @Override
     public Resume doRead(InputStream is) throws IOException {
-        Resume resume = null;
+        Resume resume;
         try (ObjectInputStream objectInputStream = new ObjectInputStream(is)) {
             resume = (Resume) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {

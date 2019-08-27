@@ -12,6 +12,6 @@ package ru.GilvanovDr.WebApp.storage;
 
 public class ObjectPathStorageTest extends AbstractStorageTest {
     public ObjectPathStorageTest() {
-        super(new PathStorage(STORAGE_DIR,new Strategy()));
+        super(new PathStorage(STORAGE_DIR,new ObjectStreamSerialization()));
     }
 }
