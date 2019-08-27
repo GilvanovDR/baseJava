@@ -1,4 +1,4 @@
-package ru.GilvanovDr.WebApp.storage;
+package ru.GilvanovDr.WebApp.storage.Strategy;
 
 /*
  * Create by GilvanovDR at 2019.
@@ -9,6 +9,11 @@ import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.io.*;
+
+/*
+ * Create by GilvanovDR at 2019.
+ *
+ */
 
 public class ObjectStreamSerialization implements SerializationStrategy {
     @Override

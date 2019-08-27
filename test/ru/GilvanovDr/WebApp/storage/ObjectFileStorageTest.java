@@ -5,6 +5,8 @@ package ru.GilvanovDr.WebApp.storage;
  *
  */
 
+import ru.GilvanovDr.WebApp.storage.Strategy.ObjectStreamSerialization;
+
 import java.io.File;
 
 public class ObjectFileStorageTest extends AbstractStorageTest {

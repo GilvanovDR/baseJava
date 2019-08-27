@@ -7,6 +7,7 @@ package ru.GilvanovDr.WebApp.storage;
 
 import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
+import ru.GilvanovDr.WebApp.storage.Strategy.ObjectStreamSerialization;
 
 import java.io.*;
 import java.nio.file.Files;
