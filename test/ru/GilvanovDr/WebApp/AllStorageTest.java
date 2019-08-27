@@ -15,7 +15,8 @@ import ru.GilvanovDr.WebApp.storage.*;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({StorageTest.class, SortedStorageTest.class,
-        MapUuidStorageTest.class, MapResumeStorageTest.class, ListStorageTest.class,ObjectStreamStorageTest.class})
+        MapUuidStorageTest.class, MapResumeStorageTest.class, ListStorageTest.class,ObjectStreamStorageTest.class,
+        ObjectStreamStorageTest2.class})
 public class AllStorageTest {
 
 }

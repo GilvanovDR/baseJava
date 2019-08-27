@@ -19,7 +19,7 @@ import static ru.GilvanovDr.WebApp.storage.ResumeTestData.*;
  */
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("D:\\Java Project\\baseJava\\src\\storage");
+    protected static final String STORAGE_DIR = "D:\\Java Project\\baseJava\\src\\storage";
     private static final String UUID_1 = "uuid1";
 
     private Storage storage;

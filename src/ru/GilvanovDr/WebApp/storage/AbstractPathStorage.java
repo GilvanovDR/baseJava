@@ -5,19 +5,17 @@ package ru.GilvanovDr.WebApp.storage;
  *
  */
 
-import com.sun.corba.se.spi.resolver.Resolver;
 import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public abstract class AbstractPathStorage extends AbstractStorage<Path> {
@@ -31,62 +29,86 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         }
     }
 
+    //запись в поток
     protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
+    //чтение из потока
     protected abstract Resume doRead(InputStream is) throws IOException;
 
     @Override
+    //обновлени резюме в файле
     protected void doUpdate(Resume resume, Path path) {
-
+        try {
+            doWrite(resume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
+        } catch (IOException e) {
+            throw new StorageException("Can't write file", resume.getUuid(), e);
+        }
     }
 
     @Override
+    //чтения резюме из файла
+    protected Resume doGet(Path path) {
+
+        try {
+            return doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
+        } catch (IOException e) {
+            throw new StorageException("File read error", path.toString(), e);
+        }
+    }
+
+    @Override
+    //НАличие файла
     protected boolean isExist(Path path) {
-        return false;
+        return Files.exists(path);
     }
 
     @Override
+    //создание нового пустого фала с послеующей перезаписью
     protected void doSave(Resume r, Path path) {
-
+        try {
+            Files.createFile(path);
+        } catch (IOException e) {
+            throw new StorageException("Can't create new file", null, e);
+        }
+        doUpdate(r, path);
     }
 
     @Override
+    //Передача ссылки на новый файл
     protected Path getSearchKey(String uuid) {
-        return null;
+        return Paths.get(directory.toString(), uuid);
+
     }
 
     @Override
+    //Удаления 1 файла
     protected void doDelete(Path path) {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("IO error", path.getFileName().toString(),e);
+            throw new StorageException("IO error", path.getFileName().toString(), e);
         }
-
     }
 
     @Override
-    protected Resume doGet(Path path) {
-        return null;
-    }
-
-    @Override
+    //все фалы из директории в List<Resume>
     protected List<Resume> getStorageAsList() {
         ArrayList<Resume> list;
         try {
             list = Files.list(directory).map(this::doGet).collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException e) {
-            throw new StorageException("Directory read error", null,e);
+            throw new StorageException("Directory read error", null, e);
         }
 
         return list;
     }
 
     @Override
+    //количество файлов в директории
     public int size() {
         int count;
         try {
-            count = (int) Files.lines(directory).count();
+            count = (int) Files.list(directory).count();
         } catch (IOException e) {
             throw new StorageException("Directory read error ", null, e);
         }
@@ -94,12 +116,12 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     }
 
     @Override
+    //Очитска директории
     public void clear() {
         try {
             Files.list(directory).forEach(this::doDelete);
         } catch (IOException e) {
-            throw new StorageException("Path delete error", null,e);
+            throw new StorageException("Path delete error", null, e);
         }
-
     }
 }
