@@ -9,7 +9,6 @@ import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.io.*;
-import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,28 +17,31 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
+    private Strategy strategy;
 
-    public AbstractPathStorage(String dir) {
+    public PathStorage(String dir, Strategy strategy) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + "is not directory or is not writable");
         }
+        this.strategy = strategy;
+        Objects.requireNonNull(strategy, "Strategy of serialization must be not null");
     }
 
     //запись в поток
-    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
+    //  public abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to strategy.class
 
     //чтение из потока
-    protected abstract Resume doRead(InputStream is) throws IOException;
+    //  public abstract Resume doRead(InputStream is) throws IOException; delegate to strategy.class
 
     @Override
     //обновлени резюме в файле
     protected void doUpdate(Resume resume, Path path) {
         try {
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
+            strategy.doWrite(resume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
         } catch (IOException e) {
             throw new StorageException("Can't write file", resume.getUuid(), e);
         }
@@ -50,7 +52,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected Resume doGet(Path path) {
 
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
+            return strategy.doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
         } catch (IOException e) {
             throw new StorageException("File read error", path.toString(), e);
         }

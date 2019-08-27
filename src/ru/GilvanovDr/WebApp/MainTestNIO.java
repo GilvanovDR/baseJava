@@ -17,5 +17,6 @@ public class MainTestNIO {
         Files.createFile(path);
         Files.delete(path);
         System.out.println(Files.list(path1).count());
+
     }
 }
