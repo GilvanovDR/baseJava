@@ -7,7 +7,7 @@ package ru.GilvanovDr.WebApp.storage;
 
 import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
-import ru.GilvanovDr.WebApp.storage.Strategy.ObjectStreamSerialization;
+import ru.GilvanovDr.WebApp.storage.Strategy.SerializationStrategy;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,13 +16,13 @@ import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
     private File directory;
-    private ObjectStreamSerialization objectStreamSerialization;
+    private SerializationStrategy objectStream;
 
-    // protected abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to objectStreamSerialization
+    // protected abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to objectStream
 
-    // protected abstract Resume doRead(InputStream is) throws IOException; delegate to objectStreamSerialization
+    // protected abstract Resume doRead(InputStream is) throws IOException; delegate to objectStream
 
-    FileStorage(File directory, ObjectStreamSerialization objectStreamSerialization) {
+    FileStorage(File directory, SerializationStrategy objectStream) {
         Objects.requireNonNull(directory, "directory must be not Null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -31,14 +31,14 @@ public class FileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " can't read/write");
         }
         this.directory = directory;
-        this.objectStreamSerialization = objectStreamSerialization;
-        Objects.requireNonNull(objectStreamSerialization, "ObjectStreamSerialization of serialization must be not null");
+        this.objectStream = objectStream;
+        Objects.requireNonNull(objectStream, "ObjectStream of serialization must be not null");
     }
 
     @Override
     protected void doUpdate(Resume resume, File file) {
         try {
-            objectStreamSerialization.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            objectStream.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Can't write file", resume.getUuid(), e);
         }
@@ -77,7 +77,7 @@ public class FileStorage extends AbstractStorage<File> {
     protected Resume doGet(File file) {
         //abstract doRead
         try {
-            return objectStreamSerialization.doRead(new BufferedInputStream(new FileInputStream(file)));
+            return objectStream.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File read error", file.getName(), e);
         }

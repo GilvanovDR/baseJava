@@ -15,7 +15,7 @@ import java.io.*;
  *
  */
 
-public class ObjectStreamSerialization implements SerializationStrategy {
+public class ObjectStream implements SerializationStrategy {
     @Override
     public void doWrite(Resume r, OutputStream oi) throws IOException {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(oi)) {

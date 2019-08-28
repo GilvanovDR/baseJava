@@ -10,10 +10,10 @@ package ru.GilvanovDr.WebApp.storage;
  *
  */
 
-import ru.GilvanovDr.WebApp.storage.Strategy.ObjectStreamSerialization;
+import ru.GilvanovDr.WebApp.storage.Strategy.ObjectStream;
 
 public class ObjectPathStorageTest extends AbstractStorageTest {
     public ObjectPathStorageTest() {
-        super(new PathStorage(STORAGE_DIR,new ObjectStreamSerialization()));
+        super(new PathStorage(STORAGE_DIR, new ObjectStream()));
     }
 }

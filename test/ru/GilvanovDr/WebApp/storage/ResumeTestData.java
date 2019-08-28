@@ -9,15 +9,14 @@ import ru.GilvanovDr.WebApp.model.*;
 import java.time.Month;
 
 class ResumeTestData {
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
-
     static final Resume RESUME_1;
     static final Resume RESUME_2;
     static final Resume RESUME_3;
     static final Resume RESUME_4;
+    private static final String UUID_1 = "uuid1";
+    private static final String UUID_2 = "uuid2";
+    private static final String UUID_3 = "uuid3";
+    private static final String UUID_4 = "uuid4";
 
     static {
         RESUME_1 = new Resume(UUID_1, "Name1");

@@ -16,7 +16,7 @@ import java.io.OutputStream;
  *
  */
 
-interface SerializationStrategy {
+public interface SerializationStrategy {
     void doWrite(Resume r, OutputStream os) throws IOException;
 
     Resume doRead(InputStream is) throws IOException;

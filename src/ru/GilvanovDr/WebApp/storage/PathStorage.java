@@ -7,42 +7,43 @@ package ru.GilvanovDr.WebApp.storage;
 
 import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
-import ru.GilvanovDr.WebApp.storage.Strategy.ObjectStreamSerialization;
+import ru.GilvanovDr.WebApp.storage.Strategy.SerializationStrategy;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
-    private ObjectStreamSerialization objectStreamSerialization;
+    private SerializationStrategy objectStream;
 
-    PathStorage(String dir, ObjectStreamSerialization objectStreamSerialization) {
+    PathStorage(String dir, SerializationStrategy objectStream) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + "is not directory or is not writable");
         }
-        this.objectStreamSerialization = objectStreamSerialization;
-        Objects.requireNonNull(objectStreamSerialization, "ObjectStreamSerialization of serialization must be not null");
+        this.objectStream = objectStream;
+        Objects.requireNonNull(objectStream, "ObjectStream of serialization must be not null");
     }
 
     //запись в поток
-    //  public abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to objectStreamSerialization.class
+    //  public abstract void doWrite(Resume r, OutputStream os) throws IOException; delegate to objectStream.class
 
     //чтение из потока
-    //  public abstract Resume doRead(InputStream is) throws IOException; delegate to objectStreamSerialization.class
+    //  public abstract Resume doRead(InputStream is) throws IOException; delegate to objectStream.class
 
     @Override
     //обновлени резюме в файле
     protected void doUpdate(Resume resume, Path path) {
         try {
-            objectStreamSerialization.doWrite(resume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
+            objectStream.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Can't write file", resume.getUuid(), e);
         }
@@ -53,7 +54,7 @@ public class PathStorage extends AbstractStorage<Path> {
     protected Resume doGet(Path path) {
 
         try {
-            return objectStreamSerialization.doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
+            return objectStream.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("File read error", path.toString(), e);
         }
@@ -62,7 +63,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     //НАличие файла
     protected boolean isExist(Path path) {
-        return Files.exists(path);
+        return Files.isRegularFile(path);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Can't create new file", null, e);
+            throw new StorageException("Can't create new file", path.toString(), e);
         }
         doUpdate(r, path);
     }
@@ -96,9 +97,9 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     //все фалы из директории в List<Resume>
     protected List<Resume> getStorageAsList() {
-        ArrayList<Resume> list;
+        List<Resume> list;
         try {
-            list = Files.list(directory).map(this::doGet).collect(Collectors.toCollection(ArrayList::new));
+            list = Files.list(directory).map(this::doGet).collect(Collectors.toList());
         } catch (IOException e) {
             throw new StorageException("Directory read error", null, e);
         }

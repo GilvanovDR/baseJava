@@ -6,7 +6,6 @@ import ru.GilvanovDr.WebApp.exception.ExistStorageException;
 import ru.GilvanovDr.WebApp.exception.NoExistStorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
 
-import java.io.File;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -74,7 +73,7 @@ public abstract class AbstractStorageTest {
     @Test
 
     public void update() {
-        Resume newResume = new Resume(UUID_1,"new Name");
+        Resume newResume = new Resume(UUID_1, "new Name");
         storage.update(newResume);
         assertTrue(newResume.equals(storage.get(UUID_1)));
 //        storage.update(new Resume("dummy"));
