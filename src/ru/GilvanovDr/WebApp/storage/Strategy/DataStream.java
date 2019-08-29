@@ -1,3 +1,8 @@
+/*
+ * Create by GilvanovDR at 2019.
+ *
+ */
+
 package ru.GilvanovDr.WebApp.storage.Strategy;
 
 /*
@@ -11,14 +16,12 @@ import ru.GilvanovDr.WebApp.model.Resume;
 import java.io.*;
 
 
-
-public class ObjectStream implements SerializationStrategy {
+public class DataStream implements SerializationStrategy {
     @Override
     public void doWrite(Resume r, OutputStream oi) throws IOException {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(oi)) {
             objectOutputStream.writeObject(r);
-
-        }
+          }
     }
 
     @Override
