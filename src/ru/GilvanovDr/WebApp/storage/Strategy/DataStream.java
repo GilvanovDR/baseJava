@@ -13,6 +13,8 @@ package ru.GilvanovDr.WebApp.storage.Strategy;
 import ru.GilvanovDr.WebApp.exception.StorageException;
 import ru.GilvanovDr.WebApp.model.ContactType;
 import ru.GilvanovDr.WebApp.model.Resume;
+import ru.GilvanovDr.WebApp.model.Section;
+import ru.GilvanovDr.WebApp.model.SectionType;
 
 import java.io.*;
 import java.util.Map;
@@ -30,6 +32,8 @@ public class DataStream implements SerializationStrategy {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
+            Map<SectionType,Section> sections = r.getSections();
+            dos.writeInt(sections.size());
         }
     }
 
@@ -38,11 +42,15 @@ public class DataStream implements SerializationStrategy {
         Resume resume;
         try (DataInputStream dis = new DataInputStream(is)) {
             resume = new Resume(dis.readUTF(), dis.readUTF());
-            int i = dis.readInt();
-            for (int j = 0; j < i; j++) {
+            int size = dis.readInt();
+            for (int i = 0; i < size; i++) {
                 ContactType contactType = ContactType.valueOf(dis.readUTF());
                 String contact = dis.readUTF();
                 resume.addContact(contactType,contact);
+            }
+            size = dis.readInt();
+            for (int i = 0; i < size; i++) {
+
             }
         }
         return resume;
