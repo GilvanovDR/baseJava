@@ -24,6 +24,10 @@ public class Resume implements Serializable {
     public Resume() {
     }
 
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
     public Map<ContactType, String> getContacts() {
         return contacts;
     }
@@ -48,11 +52,11 @@ public class Resume implements Serializable {
         sections.put(type, value);
     }
 
-/*
+
     public String getContact(ContactType type) {
         return contacts.get(type);
     }
-*/
+
 
     public void addContact(ContactType type, String value) {
         contacts.put(type, value);
