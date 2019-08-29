@@ -24,6 +24,10 @@ public class Resume implements Serializable {
     public Resume() {
     }
 
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
         Objects.requireNonNull(fullName, "fullName must not be null");
@@ -44,9 +48,11 @@ public class Resume implements Serializable {
         sections.put(type, value);
     }
 
+/*
     public String getContact(ContactType type) {
         return contacts.get(type);
     }
+*/
 
     public void addContact(ContactType type, String value) {
         contacts.put(type, value);

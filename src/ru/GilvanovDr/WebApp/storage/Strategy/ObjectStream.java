@@ -13,11 +13,11 @@ import java.io.*;
 
 
 public class ObjectStream implements SerializationStrategy {
+
     @Override
     public void doWrite(Resume r, OutputStream oi) throws IOException {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(oi)) {
             objectOutputStream.writeObject(r);
-
         }
     }
 

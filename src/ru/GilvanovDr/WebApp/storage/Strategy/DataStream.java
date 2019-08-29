@@ -11,26 +11,39 @@ package ru.GilvanovDr.WebApp.storage.Strategy;
  */
 
 import ru.GilvanovDr.WebApp.exception.StorageException;
+import ru.GilvanovDr.WebApp.model.ContactType;
 import ru.GilvanovDr.WebApp.model.Resume;
 
 import java.io.*;
+import java.util.Map;
 
 
 public class DataStream implements SerializationStrategy {
     @Override
     public void doWrite(Resume r, OutputStream oi) throws IOException {
-        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(oi)) {
-            objectOutputStream.writeObject(r);
-          }
+        try (DataOutputStream dos = new DataOutputStream(oi)) {
+            dos.writeUTF(r.getUuid());
+            dos.writeUTF(r.getFullName());
+            Map<ContactType,String> contacts = r.getContacts();
+            dos.writeInt(contacts.size());
+            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+                dos.writeUTF(entry.getKey().name());
+                dos.writeUTF(entry.getValue());
+            }
+        }
     }
 
     @Override
     public Resume doRead(InputStream is) throws IOException {
         Resume resume;
-        try (ObjectInputStream objectInputStream = new ObjectInputStream(is)) {
-            resume = (Resume) objectInputStream.readObject();
-        } catch (ClassNotFoundException e) {
-            throw new StorageException("Can't read file", null, e);
+        try (DataInputStream dis = new DataInputStream(is)) {
+            resume = new Resume(dis.readUTF(), dis.readUTF());
+            int i = dis.readInt();
+            for (int j = 0; j < i; j++) {
+                ContactType contactType = ContactType.valueOf(dis.readUTF());
+                String contact = dis.readUTF();
+                resume.addContact(contactType,contact);
+            }
         }
         return resume;
     }
