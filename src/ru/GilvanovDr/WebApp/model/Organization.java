@@ -89,14 +89,14 @@ public class Organization implements Serializable {
             this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
-        Position(LocalDate startDate, LocalDate endDate, String title, String description) {
+        public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must be not Null");
             Objects.requireNonNull(endDate, "endDate must be not Null");
             Objects.requireNonNull(title, "title must be not Null");
             this.startDate = startDate;
             this.endDate = endDate;
             this.title = title;
-            this.description = description;
+            this.description = description == null ? "" : description;
         }
 
         public LocalDate getStartDate() {
