@@ -18,7 +18,7 @@ public class JasonSectionAdapter<T> implements JsonSerializer<T>, JsonDeserializ
         JsonObject jsonObject = json.getAsJsonObject();
         JsonPrimitive jsonPrimitive = (JsonPrimitive) jsonObject.get(CLASSNAME);
         String className = jsonPrimitive.getAsString();
-        Class clazz = null;
+        Class clazz;
         try {
             clazz = Class.forName(className);
             return context.deserialize(jsonObject.get(INSTANCE), clazz);
@@ -30,9 +30,9 @@ public class JasonSectionAdapter<T> implements JsonSerializer<T>, JsonDeserializ
     @Override
     public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(CLASSNAME,src.getClass().getName());
+        jsonObject.addProperty(CLASSNAME, src.getClass().getName());
         JsonElement element = context.serialize(src);
-        jsonObject.add(INSTANCE,element);
+        jsonObject.add(INSTANCE, element);
         return jsonObject;
     }
 }

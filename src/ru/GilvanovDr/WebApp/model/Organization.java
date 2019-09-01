@@ -34,10 +34,17 @@ public class Organization implements Serializable {
 
     }
 
-
-    private Organization(Link homePage, List<Position> positions) {
+    public Organization(Link homePage, List<Position> positions) {
         this.homePage = homePage;
         this.positions = positions;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public Link getHomePage() {
+        return homePage;
     }
 
     @Override
@@ -59,6 +66,7 @@ public class Organization implements Serializable {
 
         return Objects.hash(homePage, positions);
     }
+
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {

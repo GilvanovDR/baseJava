@@ -11,7 +11,6 @@ import ru.GilvanovDr.WebApp.model.Resume;
 import java.io.*;
 
 
-
 public class ObjectStream implements SerializationStrategy {
 
     @Override

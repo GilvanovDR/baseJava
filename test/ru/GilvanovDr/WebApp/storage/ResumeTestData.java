@@ -44,7 +44,7 @@ class ResumeTestData {
                 , "Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа."
         ));
 
-        RESUME_1.addSection(SectionType.QUALIFICATIONS, new ListSection(
+       RESUME_1.addSection(SectionType.QUALIFICATIONS, new ListSection(
                 "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2 "
                 , "Version control: Subversion, Git, Mercury, ClearCase, Perforce "
                 , "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle, "
@@ -158,7 +158,7 @@ class ResumeTestData {
                 )
         );
 
-        RESUME_1.addSection(SectionType.EDUCATION,
+       RESUME_1.addSection(SectionType.EDUCATION,
                 new OrganizationSection(
                         new Organization(
                                 "Coursera",
@@ -228,6 +228,5 @@ class ResumeTestData {
                         )
                 )
         );
-
     }
 }

@@ -24,14 +24,6 @@ public class Resume implements Serializable {
     public Resume() {
     }
 
-    public Map<SectionType, Section> getSections() {
-        return sections;
-    }
-
-    public Map<ContactType, String> getContacts() {
-        return contacts;
-    }
-
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
         Objects.requireNonNull(fullName, "fullName must not be null");
@@ -42,6 +34,14 @@ public class Resume implements Serializable {
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
     }
 
     public Section getSection(SectionType type) {
