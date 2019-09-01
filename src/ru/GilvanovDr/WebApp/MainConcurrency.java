@@ -5,8 +5,7 @@
 
 package ru.GilvanovDr.WebApp;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.*;
 
 public class MainConcurrency {
     private static final int THREADS_NUMBER = 10000;
@@ -24,36 +23,29 @@ public class MainConcurrency {
         tread0.start();
         new Thread(() -> System.out.println(Thread.currentThread().getName())).start();
         System.out.println(tread0.getName() + " " + tread0.getState());
-
         final MainConcurrency mc = new MainConcurrency();
-        List<Thread> threads = new ArrayList<>(THREADS_NUMBER);
-
+        CountDownLatch latch = new CountDownLatch(THREADS_NUMBER);
+        ExecutorService executorService = Executors.newCachedThreadPool();
         for (int i = 0; i < THREADS_NUMBER; i++) {
-            Thread trhred = new Thread(() -> {
+            Future<Integer> future = executorService.submit(() -> {
                 for (int j = 0; j < 100; j++) {
                     mc.inc();
                 }
-            }
-            );
-            trhred.start();
-            threads.add(trhred);
-        }
-        threads.forEach(t -> {
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+                latch.countDown();
+                return 5;
+            });
 
-        // Thread.sleep(500);
+            /*Thread trhred = new Thread(() -> {
+
+            });
+            trhred.start();*/
+
+        }
+        latch.await(10, TimeUnit.SECONDS);
+        executorService.shutdown();
         System.out.println(counter);
-        DeadLock dl = new DeadLock();
-        dl.tread1.start();
-        dl.tread2.start();
-        Thread.sleep(500);
-        System.out.println(dl.tread1.getState());
-        System.out.println(dl.tread2.getState());
+
+        new DeadLock().startDeadLock();
     }
 
     private synchronized void inc() {
@@ -95,5 +87,13 @@ public class MainConcurrency {
                 }
             }
         };
+
+        void startDeadLock() throws InterruptedException {
+            tread2.start();
+            tread1.start();
+            Thread.sleep(500);
+            System.out.println(tread1.getState());
+            System.out.println(tread2.getState());
+        }
     }
 }
