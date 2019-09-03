@@ -1,7 +1,9 @@
 package ru.GilvanovDr.WebApp.storage;
 
+
 import org.junit.Before;
 import org.junit.Test;
+import ru.GilvanovDr.WebApp.Config;
 import ru.GilvanovDr.WebApp.exception.ExistStorageException;
 import ru.GilvanovDr.WebApp.exception.NoExistStorageException;
 import ru.GilvanovDr.WebApp.model.Resume;
@@ -18,7 +20,7 @@ import static ru.GilvanovDr.WebApp.storage.ResumeTestData.*;
  */
 
 public abstract class AbstractStorageTest {
-    protected static final String STORAGE_DIR = "D:\\Java Project\\baseJava\\src\\storage";
+    static final String STORAGE_DIR = Config.get().getStorageDir();
     private static final String UUID_1 = "uuid1";
 
     private Storage storage;
