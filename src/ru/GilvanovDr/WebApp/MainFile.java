@@ -11,10 +11,10 @@ import java.util.Objects;
 public class MainFile {
     public static void main(String[] args) {
         File file = new File("D:\\Java Project\\baseJava");
-        getFileTree(file, 0);
+        getFileT(file, 0);
     }
 
-    private static void getFileTree(File file, int i) {
+    private static void getFileT(File file, int i) {
         for (int j = 0; j < i; j++) {
             System.out.print("\t");
         }
@@ -22,7 +22,7 @@ public class MainFile {
             i++;
             System.out.println(file.getName() + "\\");
             for (File file1 : Objects.requireNonNull(file.listFiles())) {
-                getFileTree(file1, i);
+                getFileT(file1, i);
             }
 
         } else {
