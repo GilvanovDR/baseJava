@@ -46,6 +46,9 @@ public class SqlStorage implements Storage {
             ps.setString(2, resume.getUuid());
             ps.execute();
         } catch (SQLException e) {
+            if ("23505".equals(e.getSQLState())) {
+                throw new ExistStorageException(resume.getUuid());
+            }
             throw new StorageException(e);
         }
     }
@@ -53,35 +56,16 @@ public class SqlStorage implements Storage {
     @Override
     public void save(Resume r) {
         try (Connection con = connectionFactory.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT EXISTS(SELECT uuid FROM resume WHERE uuid = ?)")) {
-            ps.setString(1, r.getUuid());
-            ResultSet rs = ps.executeQuery();
-            if (!rs.next()) {
-                throw new StorageException("Can't read from db", null);
-            } else {
-                if (rs.getBoolean("exists")) {
-                    throw new ExistStorageException(r.getUuid());
-                } else {
-                    doSave(r);
-                }
-            }
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
-
-    }
-
-    private void doSave(Resume r) {
-        try (Connection con = connectionFactory.getConnection();
              PreparedStatement ps = con.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)")) {
             ps.setString(1,r.getUuid());
             ps.setString(2,r.getFullName());
             ps.execute();
         } catch (SQLException e) {
+            if ("23505".equals(e.getSQLState())) {
+                throw new ExistStorageException(r.getUuid());
+            }
             throw new StorageException(e);
         }
-
-
     }
 
     @Override
