@@ -23,7 +23,7 @@ class ResumeTestData {
         RESUME_2 = new Resume(UUID_2, "Name2");
         RESUME_3 = new Resume(UUID_3, "Name3");
         RESUME_4 = new Resume(UUID_4, "Name4");
-
+/*
         RESUME_1.addContact(ContactType.MOBILE, "+7(921) 855-0482");
         RESUME_1.addContact(ContactType.SKYPE, "grigory.kislin");
         RESUME_1.addContact(ContactType.MAIL, "gkislin@yandex.ru");
@@ -228,5 +228,6 @@ class ResumeTestData {
                         )
                 )
         );
+        */
     }
 }
