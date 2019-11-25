@@ -21,7 +21,7 @@ import static ru.GilvanovDr.WebApp.storage.ResumeTestData.*;
 
 public abstract class AbstractStorageTest {
     static final String STORAGE_DIR = Config.get().getStorageDir();
-    private static final String UUID_1 = "uuid1";
+    private static final String UUID_1 = "9ad88dac-e9b8-4753-afc6-771c441c7ffd";
 
     private Storage storage;
 

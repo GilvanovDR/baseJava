@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class ExceptionUtil {
     private ExceptionUtil() {
     }
+
     public static StorageException converException(SQLException e) {
         if ("23505".equals(e.getSQLState())) {
             throw new ExistStorageException(null);

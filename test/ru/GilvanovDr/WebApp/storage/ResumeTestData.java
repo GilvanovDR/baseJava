@@ -4,26 +4,25 @@ package ru.GilvanovDr.WebApp.storage;
  * GilvanovDR 2019.
  */
 
-import ru.GilvanovDr.WebApp.model.*;
-
-import java.time.Month;
+import ru.GilvanovDr.WebApp.model.ContactType;
+import ru.GilvanovDr.WebApp.model.Resume;
 
 class ResumeTestData {
     static final Resume RESUME_1;
     static final Resume RESUME_2;
     static final Resume RESUME_3;
     static final Resume RESUME_4;
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
+    private static final String UUID_1 = "9ad88dac-e9b8-4753-afc6-771c441c7ffd";
+    private static final String UUID_2 = "98bba3ae-0c2a-4c13-b41e-0216bb88c8cc";
+    private static final String UUID_3 = "ec708d87-b648-45b4-aabc-61f10d7c73b8";
+    private static final String UUID_4 = "318f896d-5826-4a3d-8fc2-353a630679f5";
 
     static {
-        RESUME_1 = new Resume(UUID_1, "Name1");
+        RESUME_1 = new Resume(UUID_1, "Grigory Kislin");
         RESUME_2 = new Resume(UUID_2, "Name2");
         RESUME_3 = new Resume(UUID_3, "Name3");
         RESUME_4 = new Resume(UUID_4, "Name4");
-/*
+
         RESUME_1.addContact(ContactType.MOBILE, "+7(921) 855-0482");
         RESUME_1.addContact(ContactType.SKYPE, "grigory.kislin");
         RESUME_1.addContact(ContactType.MAIL, "gkislin@yandex.ru");
@@ -31,7 +30,7 @@ class ResumeTestData {
         RESUME_1.addContact(ContactType.GITHUB, "https://github.com/gkislin");
         RESUME_1.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
         RESUME_1.addContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
-
+/*
         RESUME_1.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
         RESUME_1.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры. "));
 

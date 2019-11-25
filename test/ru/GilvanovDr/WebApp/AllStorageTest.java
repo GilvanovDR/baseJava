@@ -13,7 +13,7 @@ import ru.GilvanovDr.WebApp.storage.*;
 @Suite.SuiteClasses({StorageTest.class, SortedStorageTest.class,
         MapUuidStorageTest.class, MapResumeStorageTest.class, ListStorageTest.class, ObjectFileStorageTest.class,
         ObjectPathStorageTest.class, ObjectXmlStorageTest.class, ObjectJsonStorageTest.class,
-        ObjectDataStorageTest.class,SqlStorageTest.class})
+        ObjectDataStorageTest.class, SqlStorageTest.class})
 public class AllStorageTest {
 
 }

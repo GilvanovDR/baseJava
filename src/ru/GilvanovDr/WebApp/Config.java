@@ -20,6 +20,19 @@ public class Config {
     private String dbPassword;
 
 
+    private Config() {
+        try (InputStream is = new FileInputStream(PROPERTIES_FILE)) {
+            Properties properties = new Properties();
+            properties.load(is);
+            storageDir = properties.getProperty("storage.dir");
+            dbUrl = properties.getProperty("db.url");
+            dbUser = properties.getProperty("db.user");
+            dbPassword = properties.getProperty("db.password");
+
+        } catch (IOException e) {
+            throw new IllegalStateException("Invalid config file " + PROPERTIES_FILE.getAbsolutePath());
+        }
+    }
 
     public static Config get() {
         return INSTANCE;
@@ -39,19 +52,5 @@ public class Config {
 
     public String getStorageDir() {
         return storageDir;
-    }
-
-    private Config() {
-        try (InputStream is = new FileInputStream(PROPERTIES_FILE)) {
-            Properties properties = new Properties();
-            properties.load(is);
-            storageDir = properties.getProperty("storage.dir");
-            dbUrl = properties.getProperty("db.url");
-            dbUser = properties.getProperty("db.user");
-            dbPassword = properties.getProperty("db.password");
-
-        } catch (IOException e) {
-            throw new IllegalStateException("Invalid config file " + PROPERTIES_FILE.getAbsolutePath());
-        }
     }
 }

@@ -31,10 +31,10 @@ public class MainString {
 
     private static Map<String, Integer> testList() {
         Map<String, Integer> result = new TreeMap<>(Comparator.comparing(String::length));
-        result.put("one",1);
-        result.put("two",2);
-        result.put("sixteen",16);
-        result.put("unlucky",13);
+        result.put("one", 1);
+        result.put("two", 2);
+        result.put("sixteen", 16);
+        result.put("unlucky", 13);
         return result;
     }
 }
