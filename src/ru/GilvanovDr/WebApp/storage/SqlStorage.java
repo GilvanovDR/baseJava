@@ -61,7 +61,7 @@ public class SqlStorage implements Storage {
             sqlHelper.<Void>execute("INSERT INTO contact (resum_uuid,type,value) VALUES (?,?,?)", ps -> {
                 ps.setString(1, r.getUuid());
                 ps.setString(2, e.getKey().name());
-                ps.setString(2, e.getValue());
+                ps.setString(3, e.getValue());
                 ps.execute(); //?
                 return null;
             });
