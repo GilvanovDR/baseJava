@@ -12,14 +12,19 @@ import ru.GilvanovDr.WebApp.model.Resume;
 import ru.GilvanovDr.WebApp.sql.SqlHelper;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static ru.GilvanovDr.WebApp.storage.AbstractStorage.RESUME_FULL_NAME_COMPARATOR;
+import static ru.GilvanovDr.WebApp.storage.AbstractStorage.RESUME_UUID_COMPARATOR;
+
 public class SqlStorage implements Storage {
     private final SqlHelper sqlHelper;
 
+    //TODO Add loger private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
     SqlStorage(String dbUrl, String dbUser, String dbPassword) {
         sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
@@ -32,12 +37,14 @@ public class SqlStorage implements Storage {
             while (rs.next()) {
                 list.add(new Resume(rs.getString("uuid").trim(), rs.getString("full_name")));
             }
+            list.sort(RESUME_FULL_NAME_COMPARATOR.thenComparing(RESUME_UUID_COMPARATOR));
             return list;
         });
     }
 
 
     @Override
+    //todo fix Update
     public void update(Resume resume) {
         sqlHelper.execute("UPDATE resume SET full_name=? WHERE uuid=?", ps -> {
             ps.setString(1, resume.getFullName());
@@ -51,23 +58,26 @@ public class SqlStorage implements Storage {
 
     @Override
     public void save(Resume r) {
-        sqlHelper.<Void>execute("INSERT INTO resume (uuid, full_name) VALUES (?,?)", ps -> {
-            ps.setString(1, r.getUuid());
-            ps.setString(2, r.getFullName());
-            ps.execute();
-            return null;
-        });
-        for (Map.Entry<ContactType, String> e : r.getContacts().entrySet()) {
-            sqlHelper.<Void>execute("INSERT INTO contact (resum_uuid,type,value) VALUES (?,?,?)", ps -> {
-                ps.setString(1, r.getUuid());
-                ps.setString(2, e.getKey().name());
-                ps.setString(3, e.getValue());
-                ps.execute(); //?
-                return null;
-            });
-        }
-
+        sqlHelper.transactionalExecute(conn -> {
+                    try (PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)")) {
+                        ps.setString(1, r.getUuid());
+                        ps.setString(2, r.getFullName());
+                        ps.execute();
+                    }
+                    try (PreparedStatement ps = conn.prepareStatement("INSERT INTO contact (resum_uuid,type,value) VALUES (?,?,?)")) {
+                        for (Map.Entry<ContactType, String> e : r.getContacts().entrySet()) {
+                            ps.setString(1, r.getUuid());
+                            ps.setString(2, e.getKey().name());
+                            ps.setString(3, e.getValue());
+                            ps.addBatch();
+                        }
+                        ps.executeBatch();
+                    }
+                    return null;
+                }
+        );
     }
+
 
     @Override
     public void delete(String uuid) {
@@ -106,10 +116,12 @@ public class SqlStorage implements Storage {
                         throw new NoExistStorageException(uuid);
                     }
                     Resume r = new Resume(uuid, rs.getString("full_name"));
+                    String value;
                     do {
-                        String value = rs.getString("value");
-                        ContactType type = ContactType.valueOf(rs.getString("type"));
-                        r.addContact(type, value);
+                        if ((value = rs.getString("value")) != null) {
+                            ContactType type = ContactType.valueOf(rs.getString("type"));
+                            r.addContact(type, value);
+                        }
                     } while (rs.next());
                     return r;
                 });
